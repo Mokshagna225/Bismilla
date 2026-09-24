@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bismilla Biryani</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#B91C1C', // Tailwind red-700
+                        'primary-dark': '#991B1B', // Tailwind red-800
+                        accent: '#F59E0B' // Tailwind amber-500
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles & Animations */
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; overflow-x: hidden; }
+        
+        /* Mobile App Container Simulation on Desktop */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: white;
+            min-height: 100vh;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Splash Screen Animation */
+        .splash-logo { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .7; transform: scale(1.05); }
+        }
+
+
+        /* STRICT VIEW ISOLATION: only the active screen is visible */
+        #main-wrapper .view-section { display: none !important; }
+        #main-wrapper .view-section.active { display: flex !important; }
+        #view-location[style*="display: flex"] { display: flex !important; }
+
+        /* Login page design */
+        .login-visual {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.93) 52%, rgba(255,255,255,0.98) 100%);
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        .login-brand-area {
+            text-align: center;
+            padding: 28px 24px 18px;
+            background: linear-gradient(180deg, #fff 0%, #fff 75%, #fffaf7 100%);
+        }
+        .login-biryani-img {
+            width: 190px;
+            height: 150px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            box-shadow: 0 14px 30px rgba(120,50,20,.16);
+            border: 5px solid #fff;
+        }
+        .login-brand-title {
+            color: #b91c1c;
+            font-size: 42px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 0;
+        }
+        .login-brand-subtitle {
+            letter-spacing: 7px;
+            font-weight: 700;
+            color: #252b36;
+            margin-top: 7px;
+            font-size: 16px;
+        }
+        .login-tagline {
+            color: #596170;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        .login-card {
+            width: calc(100% - 32px);
+            max-width: 430px;
+            margin: 8px auto 30px;
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 30px 25px;
+            box-shadow: 0 12px 38px rgba(25,30,40,.10);
+            border: 1px solid #eef0f3;
+        }
+        .login-card-title {
+            text-align: center;
+            color: #202735;
+            font-size: 27px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .login-card-subtitle {
+            text-align: center;
+            color: #7a8494;
+            font-size: 14px;
+            margin: 7px 0 24px;
+        }
+        .login-field {
+            margin-bottom: 15px;
+        }
+        .login-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #414b5b;
+            margin-bottom: 6px;
+        }
+        .login-field input {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #d7dce4;
+            border-radius: 12px;
+            padding: 0 15px;
+            font-size: 15px;
+            color: #263142;
+            outline: none;
+        }
+        .login-field input:focus {
+            border-color: #b91c1c;
+            box-shadow: 0 0 0 3px rgba(185,28,28,.10);
+        }
+        .login-forgot {
+            display: block;
+            text-align: right;
+            color: #c62828;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: -6px;
+            margin-bottom: 16px;
+            text-decoration: none;
+        }
+        .login-button {
+            width: 100%;
+            height: 54px;
+            border: 0;
+            border-radius: 12px;
+            background: #c61d20;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 800;
+            box-shadow: 0 8px 18px rgba(198,29,32,.18);
+        }
+        .login-button:hover { background: #a9181b; }
+        .login-or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #8a94a4;
+            font-size: 13px;
+            margin: 22px 0 16px;
+        }
+        .login-or::before, .login-or::after {
+            content: "";
+            height: 1px;
+            background: #dfe3e8;
+            flex: 1;
+        }
+        .login-register {
+            text-align: center;
+            color: #6c7583;
+            font-size: 14px;
+        }
+        .login-register a {
+            color: #c51e20;
+            font-weight: 800;
+            text-decoration: none;
+        }
+        @media (max-width: 480px) {
+            .login-brand-area { padding-top: 20px; }
+            .login-biryani-img { width: 165px; height: 130px; }
+            .login-brand-title { font-size: 36px; }
+            .login-card { padding: 24px 20px; }
+        }
+
+        /* View Transitions */
+        .view-section {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .view-section.active { display: flex; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .toast {
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: slideDown 0.3s forwards, fadeOut 0.3s forwards 2.7s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.success { background-color: #10B981; }
+        .toast.error { background-color: #EF4444; }
+        .toast.info { background-color: #3B82F6; }
+        
+        @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; display: none; } }
+
+        /* Loaders */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 50;
+            border-radius: 8px;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+        }
+        .dropdown.active .dropdown-content {
+            display: block;
+        }
+
+        /* Hero Image */
+        .hero-img-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(185, 28, 28, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 4px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="main-wrapper" class="app-container relative">
+        
+        <!-- 1. Splash Screen -->
+        <div id="view-splash" class="view-section active bg-primary h-screen items-center justify-center text-white">
+            <div class="text-center splash-logo">
+                <i class="fa-solid fa-fire-burner text-6xl mb-4"></i>
+                <h1 class="text-4xl font-bold tracking-wider">BISMILLA</h1>
+                <p class="text-xl font-light tracking-widest mt-1">BIRYANI</p>
+            </div>
+            <div class="absolute bottom-10 flex flex-col items-center">
+                <div class="spinner mb-2"></div>
+                <p class="text-sm opacity-80">Preparing something delicious...</p>
+            </div>
+        </div>
+
+        <!-- 2. Auth: Login -->
+        <div id="view-login" class="view-section login-visual">
+            <div class="login-brand-area">
+                <img
+                    src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=700&q=85"
+                    alt="Bismilla Chicken Biryani"
+                    class="login-biryani-img"
+                >
+                <h1 class="login-brand-title">Bismilla</h1>
+                <div class="login-brand-subtitle">BIRYANI</div>
+                <div class="login-tagline">Good Food Brings People Together</div>
+            </div>
+
+            <div class="login-card">
+                <h2 class="login-card-title">Welcome Back</h2>
+                <p class="login-card-subtitle">Login to continue to Bismilla Biryani</p>
+
+                <form id="form-login">
+                    <div class="login-field">
+                        <label for="login-email">Email or Mobile Number</label>
+                        <input type="text" id="login-email" required placeholder="Enter email or 10-digit mobile number">
+                    </div>
+
+                    <div class="login-field">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password">
+                    </div>
+
+                    <a href="#" class="login-forgot" onclick="event.preventDefault(); openForgotPassword();">
+                        Forgot Password?
+                    </a>
+
+                    <button type="submit" class="login-button flex justify-center items-center">
+                        <span id="login-btn-text">Login</span>
+                        <div id="login-spinner" class="spinner hidden ml-2"></div>
+                    </button>
+                </form>
+
+                <div class="login-or">OR</div>
+
+                <div class="login-register">
+                    Don't have an account?
+                    <a href="#" onclick="event.preventDefault(); switchView('view-register')">Register Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Auth: Register -->
+        <div id="view-register" class="view-section bg-white p-6 justify-center hidden">
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-user-plus text-primary text-5xl mb-2"></i>
+                <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
+                <p class="text-gray-500">Join us for the best biryani in town</p>
+            </div>
+            <form id="form-register" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="reg-name" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="reg-email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="john@example.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                    <input type="tel" id="reg-mobile" pattern="[0-9]{10}" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="10-digit mobile number">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="reg-password" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="Create password">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input type="password" id="reg-confirm-password" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="Confirm password">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Referral Code (Optional)</label>
+                    <input type="text" id="reg-referral" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="Got a code?">
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-bold text-lg hover:bg-primary-dark transition flex justify-center items-center mt-6">
+                    <span id="reg-btn-text">Send OTPs</span>
+                    <div id="reg-spinner" class="spinner hidden ml-2"></div>
+                </button>
+            </form>
+
+            <div id="registration-otp-panel" class="hidden mt-5 p-4 rounded-xl bg-red-50 border border-red-100">
+                <h3 class="font-bold text-gray-800 mb-1">Verify your contact details</h3>
+                <p class="text-xs text-gray-600 mb-3">Enter the 6-digit OTP sent to your email and mobile.</p>
+                <input id="reg-email-otp" inputmode="numeric" maxlength="6" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="Email OTP">
+                <input id="reg-mobile-otp" inputmode="numeric" maxlength="6" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="Mobile OTP">
+                <div id="recaptcha-container"></div>
+                <button type="button" id="reg-verify-btn" class="w-full bg-primary text-white py-3 rounded-xl font-bold">Verify & Create Account</button>
+            </div>
+
+            <div class="mt-6 text-center text-sm text-gray-600">
+                Already have an account? <a href="#" onclick="switchView('view-login')" class="text-primary font-bold hover:underline">Login here</a>
+            </div>
+        </div>
+
+        <!-- Forgot Password -->
+        <div id="forgot-password-modal" class="hidden fixed inset-0 z-[200] bg-black/50 items-center justify-center p-5">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
+                <div class="flex justify-between items-center mb-4"><h2 class="text-xl font-bold">Reset Password</h2><button onclick="closeForgotPassword()" class="text-gray-500"><i class="fa-solid fa-xmark"></i></button></div>
+                <p class="text-sm text-gray-500 mb-4">Enter your registered email or mobile number.</p>
+                <input id="forgot-identifier" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="Email or mobile number">
+                <button id="forgot-send-btn" onclick="sendForgotOtp()" class="w-full bg-primary text-white py-3 rounded-xl font-bold mb-3">Send OTP</button>
+                <div id="forgot-otp-step" class="hidden">
+                    <div id="forgot-recaptcha-container"></div>
+                    <input id="forgot-otp" inputmode="numeric" maxlength="6" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="Enter 6-digit OTP">
+                    <input id="forgot-new-password" type="password" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="New password">
+                    <input id="forgot-confirm-password" type="password" class="w-full px-4 py-3 rounded-xl border mb-3" placeholder="Confirm new password">
+                    <button onclick="verifyForgotOtpAndReset()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold">Verify OTP & Update Password</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Location Setup Modal/View -->
+        <div id="view-location" class="view-section bg-white p-6 justify-center h-screen fixed inset-0 z-[100]" style="display:none; max-width: 480px; margin: 0 auto; box-shadow: 0 0 100px rgba(0,0,0,0.5);">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">Set Location</h2>
+                <button onclick="document.getElementById('view-location').style.display='none'" class="text-gray-500 hover:text-primary"><i class="fa-solid fa-times text-2xl"></i></button>
+            </div>
+
+            <div class="text-center mb-6">
+                <div class="bg-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
+                    <i class="fa-solid fa-map-location-dot text-3xl"></i>
+                </div>
+                <p class="text-gray-500 mt-2 text-sm">Use your device GPS to get your current delivery location.</p>
+            </div>
+
+            <button type="button" id="current-location-btn" onclick="useCurrentLocation()" class="w-full bg-gray-100 text-gray-800 py-3 rounded-xl font-semibold mb-3 flex items-center justify-center gap-2 hover:bg-gray-200 transition">
+                <i class="fa-solid fa-location-crosshairs text-primary"></i> Use Current Location
+            </button>
+
+            <div id="location-accuracy" class="hidden mb-4 rounded-xl bg-green-50 border border-green-200 p-3 text-sm text-green-800"></div>
+            <div id="location-source" class="hidden mb-4 rounded-xl bg-blue-50 border border-blue-200 p-3 text-xs text-blue-800">
+                GPS coordinates are used for delivery. The written address is only a readable description of those coordinates.
+            </div>
+            <a id="google-map-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden w-full text-center text-sm text-primary font-semibold mb-4">
+                <i class="fa-solid fa-map-location-dot"></i> View exact position on Google Maps
+            </a>
+
+            <div class="flex items-center my-4">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="mx-4 text-gray-400 text-sm">OR enter manually</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            <form id="form-location" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Address</label>
+                    <textarea id="loc-address" required rows="3" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary outline-none resize-none" placeholder="House/Flat No, Building, Area, Landmark..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-xl font-bold text-lg hover:bg-primary-dark transition flex justify-center items-center">
+                    Save Location
+                </button>
+            </form>
+        </div>
+
+        <!-- 5. Customer Home (Menu) -->
+        <div id="view-home" class="view-section bg-gray-50 pb-20 h-screen overflow-y-auto no-scrollbar relative">
+            
+            <!-- Header (User Info & Location) -->
+            <div class="bg-white p-4 shadow-sm sticky top-0 z-10 flex justify-between items-center border-b border-gray-100">
+                <!-- Left: User Info Dropdown -->
+                <div class="dropdown relative" id="user-dropdown-container">
+                    <button onclick="toggleDropdown('user-dropdown-container')" class="flex items-center gap-2 focus:outline-none">
+                        <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="text-left">
+                            <p id="header-user-name" class="text-sm font-bold text-gray-800 leading-tight truncate w-24">User</p>
+                            <p class="text-[10px] text-gray-500">Profile <i class="fa-solid fa-caret-down"></i></p>
+                        </div>
+                    </button>
+                    <!-- Dropdown Content -->
+                    <div class="dropdown-content p-4 border border-gray-100">
+                        <h4 class="font-bold text-gray-800 mb-3 border-b pb-2">My Profile</h4>
+                        <form id="form-update-profile" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600">Name</label>
+                                <input type="text" id="prof-edit-name" class="w-full text-sm p-1.5 border rounded" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600">Mobile</label>
+                                <input type="tel" id="prof-edit-mobile" pattern="[0-9]{10}" class="w-full text-sm p-1.5 border rounded" required>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white py-1.5 rounded text-sm font-bold mt-2">Update</button>
+                        </form>
+                        <button onclick="logoutUser()" class="w-full text-left text-red-600 text-sm font-medium mt-4 pt-2 border-t"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+                    </div>
+                </div>
+
+                <!-- Right: Location Bar -->
+                <button onclick="document.getElementById('view-location').style.display='flex'" class="flex items-center gap-2 bg-red-50 text-primary px-3 py-2 rounded-full border border-red-100 hover:bg-red-100 transition max-w-[150px]">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span id="header-address" class="text-xs font-bold truncate">Set Location</span>
+                </button>
+            </div>
+
+            <!-- Center Content: Logo & Brand -->
+            <div class="bg-gradient-to-b from-red-50 to-gray-50 py-8 px-4 text-center">
+                <div class="hero-img-container mb-4">
+                    <!-- Placeholder for Biryani with Leg Piece -->
+                    <img src="https://placehold.co/300x300/fef2f2/B91C1C?text=🍗+Biryani" alt="Biryani Leg Piece" class="w-full h-full object-cover">
+                </div>
+                <h1 class="text-3xl font-extrabold text-primary tracking-tight mb-1">BISMILLA</h1>
+                <h2 class="text-xl font-semibold text-gray-700 tracking-wider">BIRYANI</h2>
+            </div>
+
+            <!-- Menu Container -->
+            <div class="p-5 pt-0">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Our Items</h2>
+                    <div class="h-1 flex-1 bg-gray-200 ml-4 rounded"></div>
+                </div>
+                
+                <div id="menu-container" class="space-y-4">
+                    <!-- Menu items rendered here via JS -->
+                    <div class="text-center text-gray-500 py-10"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>Loading Menu...</div>
+                </div>
+            </div>
+            
+            <!-- Floating Cart Button (Visible when items in cart) -->
+            <button id="floating-cart-btn" onclick="switchView('view-cart')" class="fixed bottom-20 right-6 bg-primary text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-dark transition transform hover:scale-105 hidden z-40">
+                <i class="fa-solid fa-cart-shopping text-xl"></i>
+                <span id="floating-cart-badge" class="absolute -top-1 -right-1 bg-yellow-400 text-gray-900 text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">0</span>
+            </button>
+        </div>
+
+        <!-- 6. Cart View -->
+        <div id="view-cart" class="view-section bg-gray-50 pb-20 h-screen flex flex-col">
+            <div class="bg-white p-4 shadow-sm sticky top-0 z-10 flex items-center">
+                <h1 class="text-xl font-bold text-gray-800 flex-grow text-center">Your Cart</h1>
+            </div>
+            
+            <div id="cart-empty-state" class="flex-1 flex flex-col items-center justify-center text-gray-500 hidden">
+                <i class="fa-solid fa-cart-arrow-down text-6xl text-gray-300 mb-4"></i>
+                <p class="text-lg font-medium text-gray-600">Your cart is empty</p>
+                <button onclick="switchView('view-home')" class="mt-4 px-6 py-2 bg-primary text-white rounded-full font-medium shadow hover:bg-primary-dark">Browse Menu</button>
+            </div>
+
+            <div id="cart-content-state" class="flex-1 overflow-y-auto p-4 space-y-4 hidden no-scrollbar">
+                <div id="cart-items-container" class="space-y-3">
+                    <!-- Cart items rendered here -->
+                </div>
+
+                <!-- Bill Details -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mt-6">
+                    <h3 class="font-bold text-gray-800 mb-3 border-b pb-2">Bill Details</h3>
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Item Total</span>
+                        <span id="cart-subtotal">₹0</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Delivery Charge</span>
+                        <span id="cart-delivery">₹40</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-lg text-gray-800 mt-3 pt-3 border-t">
+                        <span>To Pay</span>
+                        <span id="cart-total" class="text-primary">₹0</span>
+                    </div>
+                </div>
+
+                <!-- Delivery Address Confirm -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mt-4 mb-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-800">Deliver to</h3>
+                        <button onclick="document.getElementById('view-location').style.display='flex'" class="text-xs text-primary font-bold">CHANGE</button>
+                    </div>
+                    <p id="cart-delivery-address" class="text-sm text-gray-600 line-clamp-2">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Fixed Bottom Checkout Bar -->
+            <div id="cart-checkout-bar" class="bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] mt-auto hidden sticky bottom-0">
+                <button onclick="proceedToPayment()" class="w-full bg-primary text-white py-3.5 rounded-xl font-bold text-lg hover:bg-primary-dark transition shadow-md flex justify-between items-center px-6">
+                    <span>Order Now</span>
+                    <span id="btn-cart-total">₹0 <i class="fa-solid fa-chevron-right text-sm ml-1"></i></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 7. Payment View -->
+        <div id="view-payment" class="view-section bg-gray-50 h-screen flex flex-col">
+            <div class="bg-white p-4 shadow-sm flex items-center border-b">
+                <button onclick="switchView('view-cart')" class="text-gray-600 hover:text-primary mr-4"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Payment</h1>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-5 flex flex-col items-center">
+                <div class="bg-white w-full rounded-2xl shadow-md p-6 flex flex-col items-center border border-gray-100 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-accent"></div>
+                    
+                    <h2 class="text-lg font-bold text-gray-800 mb-1 mt-2">Payment</h2>
+                    <p id="payment-instruction" class="text-sm text-gray-500 mb-6 text-center">Your payment QR will appear when you click Order Now.</p>
+                    
+                    <!-- Dynamic QR generation via API -->
+                    <div id="payment-qr-container" class="bg-gray-100 p-3 rounded-xl border-2 border-dashed border-gray-300 mb-4 hidden">
+                        <img id="payment-qr-img" src="" alt="Payment QR" class="w-48 h-48 mix-blend-multiply">
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <p class="text-sm text-gray-500">Amount to pay</p>
+                        <p id="payment-amount-display" class="text-3xl font-bold text-gray-800 my-1">₹0</p>
+                        <p class="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-1 rounded">UPI ID: <span id="admin-upi-id">bismilla@upi</span></p>
+                    </div>
+
+                    <div class="w-full bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-800 mb-6 flex items-start gap-2">
+                        <i class="fa-solid fa-circle-info mt-0.5"></i>
+                        <p>After completing the payment in your UPI app, click the button below to confirm your order.</p>
+                    </div>
+
+                    <button onclick="confirmPayment()" id="btn-confirm-payment" class="w-full bg-green-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-green-700 transition shadow-md flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-check-circle"></i> I Have Paid
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Orders History & Tracking View -->
+        <div id="view-orders" class="view-section bg-gray-50 pb-20 h-screen overflow-y-auto no-scrollbar">
+            <div class="bg-white p-4 shadow-sm sticky top-0 z-10">
+                <h1 class="text-xl font-bold text-gray-800 text-center">My Orders</h1>
+            </div>
+
+            <div id="orders-container" class="p-4 space-y-4">
+                <div class="text-center text-gray-500 py-10"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>Loading Orders...</div>
+            </div>
+        </div>
+
+        <!-- Profile View -->
+        <div id="view-profile" class="view-section bg-gray-50 pb-20 h-screen overflow-y-auto">
+             <div class="bg-primary text-white p-6 pb-12 rounded-b-[2rem] shadow-md relative">
+                <h1 class="text-2xl font-bold mb-4">My Profile</h1>
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-primary text-2xl font-bold shadow-md">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 id="profile-name" class="font-bold text-lg">Loading...</h2>
+                        <p id="profile-mobile" class="text-red-100 text-sm">...</p>
+                    </div>
+                </div>
+             </div>
+             
+             <div class="px-5 -mt-6">
+                 <div class="bg-white rounded-xl shadow-sm p-4 space-y-4 border border-gray-100">
+                     <div class="flex items-center justify-between py-2 border-b">
+                         <div class="flex items-center gap-3 text-gray-700">
+                             <i class="fa-solid fa-location-dot w-5 text-center text-gray-400"></i>
+                             <div class="text-sm">
+                                 <p class="font-bold">Saved Address</p>
+                                 <p id="profile-address" class="text-xs text-gray-500 truncate w-48">Loading...</p>
+                             </div>
+                         </div>
+                         <button onclick="switchView('view-location')" class="text-primary text-xs font-bold">EDIT</button>
+                     </div>
+                     <div class="flex items-center justify-between py-2">
+                         <button onclick="logoutUser()" class="flex items-center gap-3 text-red-600 w-full text-left font-medium">
+                             <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i> Logout
+                         </button>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <!-- Customer Bottom Navigation -->
+        <div id="customer-bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.05)] z-50 hidden" style="max-width: 480px; margin: 0 auto;">
+            <button onclick="switchView('view-home')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-primary transition-colors" data-target="view-home">
+                <i class="fa-solid fa-house text-xl"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button onclick="switchView('view-cart')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-primary transition-colors relative" data-target="view-cart">
+                <i class="fa-solid fa-cart-shopping text-xl"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full hidden">0</span>
+                <span class="text-[10px] font-medium">Cart</span>
+            </button>
+            <button onclick="switchView('view-orders')" class="nav-btn flex flex-col items-center gap-1 text-gray-400 hover:text-primary transition-colors" data-target="view-orders">
+                <i class="fa-solid fa-receipt text-xl"></i>
+                <span class="text-[10px] font-medium">Orders</span>
+            </button>
+        </div>
+    </div> <!-- END MAIN APP WRAPPER -->
+
+
+    <script src="./firebase-config.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithCustomToken, RecaptchaVerifier, signInWithPhoneNumber, PhoneAuthProvider, EmailAuthProvider, linkWithCredential } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, onSnapshot, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Environment Setup
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'bismilla-biryani-local';
+       const firebaseConfig =
+        window.BISMILLA_FIREBASE_CONFIG ||
+        (typeof __firebase_config !== 'undefined'
+        ? JSON.parse(__firebase_config)
+        : null);
+        const authToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        const isMockMode = false;
+
+        // Initialize Firebase (only if we have a real config, otherwise we mock)
+        let app, auth, db;
+        if (!isMockMode) {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        }
+
+        // --- NODE.JS DATABASE API ---
+        // The frontend uses this API for persistent users, login history and payments.
+        const API_BASE = 'http://localhost:5000/api';
+        let apiToken = localStorage.getItem('bismilla_api_token') || null;
+
+        // --- GLOBAL STATE ---
+        let state = {
+            user: null,
+            profile: null,
+            cart: [], // Array of {id, name, price, qty}
+            menu: [],
+            customerOrders: [],
+            adminOrders: [],
+            settings: { upi: 'bismilla@upi', deliveryCharge: 40 },
+            isAdmin: false,
+            currentMode: 'customer' // 'customer' or 'admin'
+        };
+
+        // --- MOCK DATABASE (For Local Testing without Firebase) ---
+        const mockDb = {
+            users: [],
+            menu: [],
+            orders: []
+        };
+
+        // Strict Paths (Rule #1)
+        const getPublicPath = (colName) => {
+            if(isMockMode) return colName;
+            return collection(db, 'artifacts', appId, 'public', 'data', colName)
+        };
+        const getUserPath = (colName) => {
+            if(!state.user) return null;
+            if(isMockMode) return `users_${state.user.uid}_${colName}`;
+            return collection(db, 'artifacts', appId, 'users', state.user.uid, colName);
+        };
+
+        // Hardcoded Admin Email for demo security purposes
+        const ADMIN_EMAIL = 'admin@bismillabiryani.com';
+
+        // --- UTILITY FUNCTIONS ---
+        window.showToast = function(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            let icon = 'fa-info-circle';
+            if(type==='success') icon = 'fa-check-circle';
+            if(type==='error') icon = 'fa-exclamation-circle';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { if(toast.parentElement) toast.remove(); }, 3000);
+        }
+
+        window.toggleDropdown = function(id) {
+            const el = document.getElementById(id);
+            if(el.classList.contains('active')) {
+                el.classList.remove('active');
+            } else {
+                // Close others first
+                document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+                el.classList.add('active');
+            }
+        }
+        
+        // Close dropdowns if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown.active').forEach(d => d.classList.remove('active'));
+            }
+        }
+
+        window.switchAppMode = function(mode) {
+            state.currentMode = mode;
+            if(mode === 'customer') {
+                const adminWrapper = document.getElementById('admin-wrapper');
+                if (adminWrapper) adminWrapper.classList.add('hidden');
+                document.getElementById('main-wrapper').classList.remove('hidden');
+                // Re-evaluate auth state for customer flow
+                handleAuthChange(state.user);
+            } else {
+                document.getElementById('main-wrapper').classList.add('hidden');
+                const adminWrapper = document.getElementById('admin-wrapper');
+                if(adminWrapper) {
+                    adminWrapper.classList.remove('hidden');
+                    adminWrapper.classList.add('flex');
+                }
+                
+                // Show admin login if not logged in as admin
+                if(state.user && state.isAdmin) {
+                    showAdminView('view-admin-dashboard');
+                } else {
+                    // Force sign out if switching to admin login panel to avoid mixed states
+                    if(state.user) signOut(auth);
+                    showAdminView('view-admin-login');
+                }
+            }
+        }
+
+        function showAdminView(viewId) {
+            const wrapper = document.getElementById('admin-wrapper');
+            if(!wrapper) return;
+            wrapper.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('hidden');
+            });
+            const view = document.getElementById(viewId);
+            if(view) {
+                view.classList.remove('hidden');
+                if(viewId !== 'view-admin-login') view.classList.add('flex');
+            }
+        }
+
+        window.switchView = function(viewId, pushState = true) {
+            // Hide all customer views
+            document.querySelectorAll('#main-wrapper .view-section').forEach(el => {
+                if(el.id !== 'view-location') el.classList.remove('active'); // Don't hide location modal automatically here
+            });
+            
+            // If switching away from location modal via logic, hide it
+            if(viewId !== 'view-location') {
+                 document.getElementById('view-location').style.display = 'none';
+            }
+
+            // Hide/clear QR whenever we leave the payment screen.
+            if(viewId !== 'view-payment') {
+                const qrContainer = document.getElementById('payment-qr-container');
+                const qrImg = document.getElementById('payment-qr-img');
+                if(qrContainer) qrContainer.classList.add('hidden');
+                if(qrImg) qrImg.src = '';
+            }
+
+            // Show target
+            if(viewId === 'view-location') {
+                document.getElementById('view-location').style.display = 'flex';
+            } else {
+                document.getElementById(viewId).classList.add('active');
+            }
+
+            // Manage Bottom Nav visibility
+            const navViews = ['view-home', 'view-cart', 'view-orders'];
+            const bottomNav = document.getElementById('customer-bottom-nav');
+            if (navViews.includes(viewId)) {
+                bottomNav.classList.remove('hidden');
+                // Update active state in nav
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if(btn.dataset.target === viewId) {
+                        btn.classList.remove('text-gray-400');
+                        btn.classList.add('text-primary');
+                    } else {
+                        btn.classList.add('text-gray-400');
+                        btn.classList.remove('text-primary');
+                    }
+                });
+            } else {
+                bottomNav.classList.add('hidden');
+            }
+        }
+
+        function toggleBtnLoading(btnId, spinnerId, isLoading) {
+            const btnText = document.getElementById(btnId);
+            const spinner = document.getElementById(spinnerId);
+            if(isLoading) {
+                btnText.parentElement.disabled = true;
+                btnText.parentElement.classList.add('opacity-75', 'cursor-not-allowed');
+                spinner.classList.remove('hidden');
+            } else {
+                btnText.parentElement.disabled = false;
+                btnText.parentElement.classList.remove('opacity-75', 'cursor-not-allowed');
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // --- STREAMING_CHUNK:Authentication Handling ---
+        
+        async function initializeAuth() {
+            if (isMockMode) {
+                handleLoggedOutState();
+                return;
+            }
+
+            // Firebase persists the signed-in session in the browser.
+            onAuthStateChanged(auth, async (firebaseUser) => {
+                if (suppressAuthSync) return;
+
+                if (!firebaseUser) {
+                    apiToken = null;
+                    localStorage.removeItem('bismilla_api_token');
+                    handleLoggedOutState();
+                    return;
+                }
+
+                try {
+                    const idToken = await firebaseUser.getIdToken();
+                    const res = await fetch(`${API_BASE}/auth/firebase`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ idToken, mode: 'login' })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message || 'Could not sync Firebase account');
+
+                    apiToken = data.token;
+                    localStorage.setItem('bismilla_api_token', apiToken);
+                    state.user = data.user;
+                    state.profile = data.user.profile;
+                    state.isAdmin = firebaseUser.email === ADMIN_EMAIL;
+                    await handleAuthChange(firebaseUser);
+                } catch (e) {
+                    console.error('Firebase session sync failed:', e);
+                    showToast(e.message || 'Authentication sync failed', 'error');
+                    await signOut(auth);
+                }
+            });
+        }
+
+        function handleMockAuthStateChange(user) {
+            if(user) {
+                state.isAdmin = (user.email === ADMIN_EMAIL);
+                handleAuthChange(user);
+            } else {
+                handleLoggedOutState();
+            }
+        }
+
+        function handleLoggedOutState() {
+            state.profile = null;
+            state.isAdmin = false;
+            state.cart = []; // clear cart
+            
+            if(state.currentMode === 'admin') {
+                showAdminView('view-admin-login');
+            } else {
+                switchView('view-login');
+            }
+        }
+
+        async function handleAuthChange(user) {
+            if(!user) return;
+
+            if(state.currentMode === 'admin') {
+                if(state.isAdmin) {
+                    showAdminView('view-admin-dashboard');
+                    loadAdminData();
+                } else {
+                    showToast('Unauthorized. Admin access required.', 'error');
+                    logoutUser();
+                }
+                return;
+            }
+
+            // Customer Flow
+            if(state.isAdmin) {
+                // If logged in as admin but in customer mode, force to admin mode for safety
+                switchAppMode('admin');
+                return;
+            }
+
+            // Fetch user profile
+            if(isMockMode) {
+                const userDoc = mockDb.users.find(u => u.uid === user.uid);
+                if(userDoc && userDoc.profile) {
+                    state.profile = userDoc.profile;
+                    updateProfileUI();
+                    switchView('view-home');
+                    initializeAppCustomerData();
+                } else {
+                    switchView('view-home'); // Default to home even if no profile in mock
+                    initializeAppCustomerData();
+                }
+                return;
+            }
+
+            const profileRef = doc(getUserPath('profile'), 'details');
+            try {
+                const profileSnap = await getDoc(profileRef);
+                if (profileSnap.exists()) {
+                    state.profile = profileSnap.data();
+                    updateProfileUI();
+                    switchView('view-home');
+                    initializeAppCustomerData();
+                } else {
+                    // Profile document missing, fallback
+                    switchView('view-home');
+                    initializeAppCustomerData();
+                }
+            } catch(e) {
+                console.error("Error fetching profile", e);
+                switchView('view-home');
+                initializeAppCustomerData();
+            }
+        }
+
+        // --- OTP AUTHENTICATION ---
+        let registrationEmailChallenge = null;
+        let registrationConfirmationResult = null;
+        let registrationRecaptcha = null;
+        let forgotEmailChallenge = null;
+        let forgotConfirmationResult = null;
+        let forgotRecaptcha = null;
+        let suppressAuthSync = false;
+
+        function normalizeMobile(value) {
+            const digits = String(value || '').replace(/\D/g, '');
+            if (digits.length === 10) return `+91${digits}`;
+            if (digits.length === 12 && digits.startsWith('91')) return `+${digits}`;
+            return '';
+        }
+
+        function isEmail(value) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+
+        function setupRecaptcha(containerId) {
+            if (containerId === 'recaptcha-container') {
+                if (registrationRecaptcha) registrationRecaptcha.clear();
+                registrationRecaptcha = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'normal' });
+                return registrationRecaptcha;
+            }
+            if (forgotRecaptcha) forgotRecaptcha.clear();
+            forgotRecaptcha = new RecaptchaVerifier(auth, 'forgot-recaptcha-container', { size: 'normal' });
+            return forgotRecaptcha;
+        }
+
+        async function sendMobileOtp(phoneNumber, containerId) {
+            const verifier = setupRecaptcha(containerId);
+            return signInWithPhoneNumber(auth, phoneNumber, verifier);
+        }
+
+        // Registration: validate details, send Gmail OTP + Firebase SMS OTP.
+        const registerForm = document.getElementById('form-register');
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('reg-email').value.trim().toLowerCase();
+                const mobile = normalizeMobile(document.getElementById('reg-mobile').value.trim());
+                const pwd = document.getElementById('reg-password').value;
+                const confirmPwd = document.getElementById('reg-confirm-password').value;
+                const name = document.getElementById('reg-name').value.trim();
+
+                if (!isEmail(email)) return showToast('Enter a valid email address.', 'error');
+                if (!mobile) return showToast('Enter a valid 10-digit Indian mobile number.', 'error');
+                if (pwd.length < 6) return showToast('Password must contain at least 6 characters.', 'error');
+                if (pwd !== confirmPwd) return showToast('Passwords do not match.', 'error');
+                if (!auth) return showToast('Firebase is not configured.', 'error');
+
+                toggleBtnLoading('reg-btn-text', 'reg-spinner', true);
+                try {
+                    const emailRes = await fetch(`${API_BASE}/auth/email-otp/send`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, purpose: 'registration', name, mobile })
+                    });
+                    const emailData = await emailRes.json();
+                    if (!emailRes.ok) throw new Error(emailData.message || 'Could not send email OTP.');
+                    registrationEmailChallenge = emailData.challengeId;
+
+                    suppressAuthSync = true;
+                    registrationConfirmationResult = await sendMobileOtp(mobile, 'recaptcha-container');
+                    document.getElementById('registration-otp-panel').classList.remove('hidden');
+                    showToast('Email OTP and mobile OTP sent. Check both.', 'success');
+                } catch (error) {
+                    console.error(error);
+                    showToast(error.message || 'Could not send OTPs.', 'error');
+                    if (registrationRecaptcha) registrationRecaptcha.clear();
+                } finally {
+                    toggleBtnLoading('reg-btn-text', 'reg-spinner', false);
+                }
+            });
+        }
+
+        document.getElementById('reg-verify-btn')?.addEventListener('click', async () => {
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const mobile = normalizeMobile(document.getElementById('reg-mobile').value.trim());
+            const codeEmail = document.getElementById('reg-email-otp').value.trim();
+            const codeMobile = document.getElementById('reg-mobile-otp').value.trim();
+            const pwd = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value.trim();
+
+            if (!registrationEmailChallenge || !registrationConfirmationResult) return showToast('Please request OTPs first.', 'error');
+            if (!/^\d{6}$/.test(codeEmail) || !/^\d{6}$/.test(codeMobile)) return showToast('Enter both 6-digit OTPs.', 'error');
+
+            const btn = document.getElementById('reg-verify-btn');
+            btn.disabled = true; btn.textContent = 'Verifying...';
+            try {
+                const emailRes = await fetch(`${API_BASE}/auth/email-otp/verify`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ challengeId: registrationEmailChallenge, email, otp: codeEmail, purpose: 'registration' })
+                });
+                const emailData = await emailRes.json();
+                if (!emailRes.ok) throw new Error(emailData.message || 'Email OTP is incorrect.');
+
+                await registrationConfirmationResult.confirm(codeMobile);
+                const phoneUser = auth.currentUser;
+                if (!phoneUser) throw new Error('Mobile OTP verification failed.');
+
+                // Keep one Firebase account: link Email/Password to the verified phone user.
+                suppressAuthSync = true;
+                const emailCredential = EmailAuthProvider.credential(email, pwd);
+                const linkedUser = await linkWithCredential(phoneUser, emailCredential);
+                const idToken = await linkedUser.user.getIdToken(true);
+                const syncRes = await fetch(`${API_BASE}/auth/firebase`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ idToken, name, mobile: document.getElementById('reg-mobile').value.trim(), mode: 'register' })
+                });
+                const data = await syncRes.json();
+                if (!syncRes.ok) throw new Error(data.message || 'Registration failed.');
+
+                apiToken = data.token;
+                localStorage.setItem('bismilla_api_token', apiToken);
+                state.user = data.user;
+                state.profile = data.user.profile;
+                state.isAdmin = false;
+                suppressAuthSync = false;
+                updateProfileUI();
+                showToast('Both OTPs verified. Registration successful!', 'success');
+                switchView('view-home');
+                initializeAppCustomerData();
+            } catch (error) {
+                console.error(error);
+                showToast(error.message || 'OTP verification failed.', 'error');
+                suppressAuthSync = false;
+            } finally {
+                btn.disabled = false; btn.textContent = 'Verify & Create Account';
+            }
+        });
+
+        // Login accepts either email or mobile + password.
+        const loginForm = document.getElementById('form-login');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const identifier = document.getElementById('login-email').value.trim();
+                const pwd = document.getElementById('login-password').value;
+                if (!auth) return showToast('Firebase is not configured.', 'error');
+                toggleBtnLoading('login-btn-text', 'login-spinner', true);
+                try {
+                    let email = identifier.toLowerCase();
+                    if (!isEmail(identifier)) {
+                        const mobile = normalizeMobile(identifier);
+                        if (!mobile) throw new Error('Enter a valid email or 10-digit mobile number.');
+                        const resolveRes = await fetch(`${API_BASE}/auth/resolve-login`, {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ mobile: identifier })
+                        });
+                        const resolveData = await resolveRes.json();
+                        if (!resolveRes.ok) throw new Error(resolveData.message || 'Invalid mobile or password.');
+                        email = resolveData.email;
+                    }
+                    await signInWithEmailAndPassword(auth, email, pwd);
+                    showToast('Login successful', 'success');
+                } catch (error) {
+                    console.error(error);
+                    showToast(error.code?.startsWith('auth/') ? 'Invalid email/mobile or password.' : (error.message || 'Login failed.'), 'error');
+                } finally {
+                    toggleBtnLoading('login-btn-text', 'login-spinner', false);
+                }
+            });
+        }
+
+        window.openForgotPassword = () => {
+            const modal = document.getElementById('forgot-password-modal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            document.getElementById('forgot-otp-step').classList.add('hidden');
+            forgotEmailChallenge = null; forgotConfirmationResult = null;
+        };
+        window.closeForgotPassword = () => {
+            const modal = document.getElementById('forgot-password-modal');
+            modal.classList.add('hidden'); modal.classList.remove('flex');
+            if (forgotRecaptcha) { try { forgotRecaptcha.clear(); } catch(e) {} }
+        };
+
+        window.sendForgotOtp = async () => {
+            const identifier = document.getElementById('forgot-identifier').value.trim();
+            if (!identifier) return showToast('Enter your email or mobile number.', 'error');
+            try {
+                if (isEmail(identifier)) {
+                    const res = await fetch(`${API_BASE}/auth/email-otp/send`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: identifier.toLowerCase(), purpose: 'password-reset' })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.message || 'Could not send OTP.');
+                    forgotEmailChallenge = data.challengeId;
+                    document.getElementById('forgot-otp-step').classList.remove('hidden');
+                    showToast('OTP sent to your Gmail/email.', 'success');
+                } else {
+                    const mobile = normalizeMobile(identifier);
+                    if (!mobile) throw new Error('Enter a valid email or 10-digit mobile number.');
+                    suppressAuthSync = true;
+                    forgotConfirmationResult = await sendMobileOtp(mobile, 'forgot-recaptcha-container');
+                    document.getElementById('forgot-otp-step').classList.remove('hidden');
+                    showToast('SMS OTP sent to your mobile.', 'success');
+                }
+            } catch (error) {
+                suppressAuthSync = false;
+                showToast(error.message || 'Could not send OTP.', 'error');
+            }
+        };
+
+        window.verifyForgotOtpAndReset = async () => {
+            const identifier = document.getElementById('forgot-identifier').value.trim();
+            const otp = document.getElementById('forgot-otp').value.trim();
+            const newPassword = document.getElementById('forgot-new-password').value;
+            const confirmPassword = document.getElementById('forgot-confirm-password').value;
+            if (newPassword.length < 6) return showToast('New password must contain at least 6 characters.', 'error');
+            if (newPassword !== confirmPassword) return showToast('Passwords do not match.', 'error');
+            if (!/^\d{6}$/.test(otp)) return showToast('Enter the 6-digit OTP.', 'error');
+
+            try {
+                let body;
+                if (isEmail(identifier)) {
+                    if (!forgotEmailChallenge) throw new Error('Please request the email OTP first.');
+                    const verifyRes = await fetch(`${API_BASE}/auth/email-otp/verify`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ challengeId: forgotEmailChallenge, email: identifier.toLowerCase(), otp, purpose: 'password-reset' })
+                    });
+                    const verifyData = await verifyRes.json();
+                    if (!verifyRes.ok) throw new Error(verifyData.message || 'Incorrect OTP.');
+                    body = { method: 'email', verificationToken: verifyData.verificationToken, newPassword };
+                } else {
+                    if (!forgotConfirmationResult) throw new Error('Please request the mobile OTP first.');
+                    const result = await forgotConfirmationResult.confirm(otp);
+                    const idToken = await result.user.getIdToken(true);
+                    body = { method: 'mobile', idToken, newPassword };
+                }
+
+                const res = await fetch(`${API_BASE}/auth/password-reset`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || 'Password update failed.');
+                await signOut(auth);
+                suppressAuthSync = false;
+                showToast('Password updated successfully. Please login.', 'success');
+                closeForgotPassword();
+            } catch (error) {
+                suppressAuthSync = false;
+                showToast(error.message || 'Incorrect OTP or password update failed.', 'error');
+            }
+        };
+
+        // Admin Login
+        const adminLoginForm = document.getElementById('form-admin-login');
+        if (adminLoginForm) {
+            adminLoginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('admin-email').value;
+                const pwd = document.getElementById('admin-password').value;
+                
+                if(email !== ADMIN_EMAIL) {
+                    showToast("Invalid Admin credentials", "error");
+                    return;
+                }
+
+                toggleBtnLoading('admin-login-btn-text', 'admin-login-spinner', true);
+                try {
+                    if(isMockMode) {
+                         // Mock Admin Login
+                         await new Promise(r => setTimeout(r, 800));
+                         state.user = { uid: 'admin_uid', email: ADMIN_EMAIL };
+                         handleMockAuthStateChange(state.user);
+                    } else {
+                        await signInWithEmailAndPassword(auth, email, pwd);
+                    }
+                    // auth observer will handle routing
+                } catch (error) {
+                    showToast("Invalid Admin credentials", "error");
+                } finally {
+                    toggleBtnLoading('admin-login-btn-text', 'admin-login-spinner', false);
+                }
+            });
+        }
+
+        window.logoutUser = async () => {
+            try {
+                if (apiToken) {
+                    await fetch(`${API_BASE}/auth/logout`, {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${apiToken}` }
+                    });
+                }
+            } catch(e) {
+                console.warn('Logout API error', e);
+            }
+
+            apiToken = null;
+            localStorage.removeItem('bismilla_api_token');
+            state.user = null;
+            state.profile = null;
+            state.cart = [];
+
+            if (!isMockMode && auth.currentUser) {
+                await signOut(auth);
+            } else {
+                handleLoggedOutState();
+            }
+        };
+        window.logoutAdmin = () => {
+             if(isMockMode) { state.user = null; handleMockAuthStateChange(null); }
+             else signOut(auth);
+        };
+
+        // --- STREAMING_CHUNK:Location Setup ---
+        
+        let gpsCapturedForSave = false;
+
+        document.getElementById('form-location').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!state.user) return;
+
+            const address = document.getElementById('loc-address').value.trim();
+
+            // If the user selected "Use Current Location", do not allow an old/stale
+            // address to be saved when GPS was not actually captured this time.
+            if (gpsCapturedForSave && (!Number.isFinite(currentLocation.latitude) || !Number.isFinite(currentLocation.longitude))) {
+                showToast("Please get your current GPS location first.", "error");
+                return;
+            }
+
+            if (!address && (!Number.isFinite(currentLocation.latitude) || !Number.isFinite(currentLocation.longitude))) {
+                showToast("Please use Current Location or enter a delivery address.", "error");
+                return;
+            }
+
+            await saveLocation(
+                address,
+                currentLocation.latitude,
+                currentLocation.longitude,
+                currentLocation.accuracy
+            );
+        });
+
+        document.getElementById('form-update-profile').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(!apiToken) return;
+
+            const name = document.getElementById('prof-edit-name').value.trim();
+            const mobile = document.getElementById('prof-edit-mobile').value.trim();
+
+            try {
+                const res = await fetch(`${API_BASE}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiToken}`
+                    },
+                    body: JSON.stringify({ name, mobile })
+                });
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.message || 'Failed to update profile');
+
+                state.profile = data.profile;
+                updateProfileUI();
+                showToast("Profile updated", "success");
+                toggleDropdown('user-dropdown-container');
+            } catch(e) {
+                showToast(e.message || "Failed to update profile", "error");
+            }
+        });
+
+        // Real device/browser GPS location.
+        // We deliberately do NOT invent a fallback/sample address.
+        let currentLocation = {
+            latitude: null,
+            longitude: null,
+            accuracy: null
+        };
+
+        function setLocationStatus(html, type = 'success') {
+            const el = document.getElementById('location-accuracy');
+            el.innerHTML = html;
+            el.classList.remove('hidden', 'bg-green-50', 'border-green-200', 'text-green-800', 'bg-red-50', 'border-red-200', 'text-red-800', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            if (type === 'error') {
+                el.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
+            } else if (type === 'info') {
+                el.classList.add('bg-blue-50', 'border-blue-200', 'text-blue-800');
+            } else {
+                el.classList.add('bg-green-50', 'border-green-200', 'text-green-800');
+            }
+        }
+
+        async function reverseGeocode(latitude, longitude) {
+            // Nominatim converts the exact GPS coordinate into a readable address.
+            const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}&zoom=18&addressdetails=1&accept-language=en`;
+            const response = await fetch(url, {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!response.ok) throw new Error(`Reverse geocoding failed (${response.status})`);
+            const result = await response.json();
+            return result.display_name || '';
+        }
+
+        window.useCurrentLocation = () => {
+            if(!state.user) return;
+
+            const btn = document.getElementById('current-location-btn');
+            const status = document.getElementById('location-accuracy');
+            const source = document.getElementById('location-source');
+            const mapLink = document.getElementById('google-map-link');
+            const addressBox = document.getElementById('loc-address');
+
+            if (!navigator.geolocation) {
+                showToast("Your browser does not support GPS location.", "error");
+                return;
+            }
+
+            gpsCapturedForSave = true;
+            currentLocation = { latitude: null, longitude: null, accuracy: null };
+            addressBox.value = '';
+            mapLink.classList.add('hidden');
+            source.classList.add('hidden');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Finding your exact GPS location...`;
+            setLocationStatus('Searching for the best GPS reading from your device…', 'info');
+
+            let bestPosition = null;
+            let watchId = null;
+            let finished = false;
+
+            const finish = async () => {
+                if (finished) return;
+                finished = true;
+                if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+                if (!bestPosition) {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-location-crosshairs text-primary"></i> Use Current Location`;
+                    setLocationStatus('No GPS position was received. Turn on Windows/device Location, allow Chrome location permission, and try again.', 'error');
+                    return;
+                }
+
+                const { latitude, longitude, accuracy } = bestPosition.coords;
+                currentLocation = { latitude, longitude, accuracy };
+
+                localStorage.setItem('bismillaLatitude', latitude);
+                localStorage.setItem('bismillaLongitude', longitude);
+                localStorage.setItem('bismillaAccuracy', accuracy);
+
+                mapLink.href = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                mapLink.classList.remove('hidden');
+
+                setLocationStatus(`
+                    <div><b>✓ GPS location locked</b></div>
+                    <div class="mt-1">Accuracy: approximately ${Math.round(accuracy)} metres</div>
+                    <div class="text-xs mt-1">GPS: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}</div>
+                `, 'success');
+                source.classList.remove('hidden');
+
+                // Clear any old/sample address. Only the address generated from this
+                // fresh GPS coordinate is placed in the field.
+                addressBox.value = '';
+                addressBox.placeholder = 'Getting the address for this GPS position...';
+
+                try {
+                    const address = await reverseGeocode(latitude, longitude);
+                    addressBox.value = address || `GPS coordinates: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+                    addressBox.placeholder = 'House/Flat No, Building, Area, Landmark...';
+                    showToast("Your current GPS location has been detected.", "success");
+                } catch (error) {
+                    console.warn('Reverse geocoding failed:', error);
+                    addressBox.value = `GPS coordinates: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+                    addressBox.placeholder = 'House/Flat No, Building, Area, Landmark...';
+                    showToast("GPS is exact, but the readable address could not be loaded. The coordinates are saved.", "info");
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-location-crosshairs text-primary"></i> Refresh Current Location`;
+                }
+            };
+
+            const onSuccess = (position) => {
+                if (finished) return;
+
+                // Keep the most accurate reading received from the device.
+                if (!bestPosition || position.coords.accuracy < bestPosition.coords.accuracy) {
+                    bestPosition = position;
+                    setLocationStatus(`Searching… best accuracy so far: approximately ${Math.round(position.coords.accuracy)} metres`, 'info');
+                }
+
+                // Stop early once the browser reports a reasonably precise reading.
+                if (position.coords.accuracy <= 20) {
+                    finish();
+                }
+            };
+
+            const onError = (error) => {
+                if (finished) return;
+
+                // Permission denied cannot be recovered without user action.
+                if (error.code === error.PERMISSION_DENIED) {
+                    finished = true;
+                    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-location-crosshairs text-primary"></i> Use Current Location`;
+                    setLocationStatus('Chrome location permission is blocked. Click the lock icon in the browser address bar → Location → Allow, then try again.', 'error');
+                    showToast("Please allow location access in Chrome.", "error");
+                    return;
+                }
+
+                // If we already have a position, keep it and finish normally.
+                if (bestPosition) finish();
+                else if (error.code === error.POSITION_UNAVAILABLE) {
+                    setLocationStatus('GPS is unavailable. Turn ON Windows/device Location and try again.', 'error');
+                }
+            };
+
+            try {
+                watchId = navigator.geolocation.watchPosition(onSuccess, onError, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                });
+
+                // Give the device up to 15 seconds to improve the GPS reading.
+                setTimeout(() => finish(), 15000);
+            } catch (error) {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-location-crosshairs text-primary"></i> Use Current Location`;
+                setLocationStatus('Could not start GPS location services.', 'error');
+            }
+        };
+
+        async function saveLocation(address, latitude = null, longitude = null, accuracy = null) {
+            if(!apiToken) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiToken}`
+                    },
+                    body: JSON.stringify({
+                        address,
+                        latitude,
+                        longitude,
+                        accuracy
+                    })
+                });
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.message || 'Failed to save address');
+
+                state.profile = data.profile;
+                showToast("Address saved", "success");
+                updateProfileUI();
+
+                document.getElementById('view-location').style.display = 'none';
+
+                if(state.cart.length > 0 && document.getElementById('view-cart').classList.contains('active')) {
+                    // stay in cart
+                } else {
+                    if(!document.getElementById('view-home').classList.contains('active')) {
+                        switchView('view-home');
+                    }
+                }
+            } catch(e) {
+                console.error("Error saving location", e);
+                showToast(e.message || "Failed to save location", "error");
+            }
+        }
+
+        function updateProfileUI() {
+            if(!state.profile) return;
+            
+            // Header Location
+            const displayAddress = state.profile.address ? state.profile.address.substring(0, 15) + '...' : 'Set Location';
+            document.getElementById('header-address').textContent = displayAddress;
+            
+            // Cart Delivery Address
+            document.getElementById('cart-delivery-address').textContent = state.profile.address || 'Please set a delivery address';
+            
+            // Header User Info Dropdown
+            document.getElementById('header-user-name').textContent = state.profile.name || 'User';
+            document.getElementById('prof-edit-name').value = state.profile.name || '';
+            document.getElementById('prof-edit-mobile').value = state.profile.mobile || '';
+            
+            // Location Modal Textarea
+            if(state.profile.address) document.getElementById('loc-address').value = state.profile.address;
+            else document.getElementById('loc-address').value = '';
+            if(Number.isFinite(Number(state.profile.latitude)) && Number.isFinite(Number(state.profile.longitude))) {
+                currentLocation.latitude = Number(state.profile.latitude);
+                currentLocation.longitude = Number(state.profile.longitude);
+                currentLocation.accuracy = Number(state.profile.accuracy) || null;
+            }
+        }
+
+        // --- STREAMING_CHUNK:Customer Data & Menu Logic ---
+
+        let customerOrdersUnsubscribe = null;
+
+        async function initializeAppCustomerData() {
+            if(!state.user) return;
+            await loadSettings();
+            await fetchMenu();
+            listenToCustomerOrders();
+        }
+
+        async function loadSettings() {
+            if(isMockMode) {
+                document.getElementById('admin-upi-id').textContent = state.settings.upi;
+                return;
+            }
+            try {
+                const settingsRef = doc(getPublicPath('settings'), 'config');
+                const snap = await getDoc(settingsRef);
+                if(snap.exists()) {
+                    state.settings = snap.data();
+                } else {
+                    // Set defaults if not exist
+                    await setDoc(settingsRef, state.settings);
+                }
+                document.getElementById('admin-upi-id').textContent = state.settings.upi;
+            } catch(e) {
+                console.log("Using default settings", e);
+            }
+        }
+
+        async function fetchMenu() {
+            try {
+                if(isMockMode) {
+                    if(mockDb.menu.length === 0) await seedInitialMenu();
+                    state.menu = [...mockDb.menu];
+                    renderMenu();
+                    return;
+                }
+
+                const menuRef = getPublicPath('menu');
+                const snapshot = await getDocs(menuRef);
+                
+                if(snapshot.empty) {
+                    // Seed initial data if empty
+                    await seedInitialMenu();
+                    // fetch again
+                    const newSnap = await getDocs(menuRef);
+                    state.menu = newSnap.docs.map(d => ({id: d.id, ...d.data()}));
+                } else {
+                    state.menu = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                }
+                renderMenu();
+            } catch (e) {
+                console.error("Error fetching menu", e);
+                document.getElementById('menu-container').innerHTML = `<div class="text-center text-red-500 py-10">Failed to load menu. Please refresh.</div>`;
+            }
+        }
+
+        async function seedInitialMenu() {
+            const items = [
+                { name: 'Dum Biryani', price: 120, desc: 'Authentic Hyderabadi chicken dum biryani cooked to perfection.', available: true, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80' },
+                { name: 'Fry Biryani', price: 120, desc: 'Spicy chicken fry pieces layered with aromatic biryani rice.', available: true, image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=500&q=80' },
+                { name: 'Mixed Biryani', price: 120, desc: 'A grand mix of chicken, mutton, and egg biryani for the ultimate feast.', available: true, image: 'https://images.unsplash.com/photo-1589302168068-964664d93cb0?w=500&q=80' }
+            ];
+            
+            if(isMockMode) {
+                 items.forEach(item => {
+                     mockDb.menu.push({ id: 'mock_item_' + Date.now() + Math.random(), ...item });
+                 });
+                 return;
+            }
+
+            const menuRef = getPublicPath('menu');
+            for(let item of items) {
+                await addDoc(menuRef, item);
+            }
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            
+            const availableItems = state.menu.filter(item => item.available);
+            
+            if(availableItems.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-10">Sorry, we are currently out of stock.</div>`;
+                return;
+            }
+
+            availableItems.forEach(item => {
+                const qty = state.cart.find(c => c.id === item.id)?.qty || 0;
+                
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex mb-4 relative";
+                
+                let btnHtml = qty > 0 
+                    ? `<div class="flex items-center gap-3 bg-red-50 text-primary border border-red-200 rounded-lg px-2 py-1 absolute bottom-4 right-4">
+                        <button onclick="updateCart('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-red-100 rounded">-</button>
+                        <span class="font-bold text-sm w-4 text-center">${qty}</span>
+                        <button onclick="updateCart('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-red-100 rounded">+</button>
+                       </div>`
+                    : `<button onclick="updateCart('${item.id}', 1)" class="absolute bottom-4 right-4 bg-white text-primary border border-primary px-4 py-1.5 rounded-lg text-sm font-bold shadow-sm hover:bg-red-50 transition cursor-pointer">ADD</button>`;
+
+                card.innerHTML = `
+                    <div class="w-32 h-32 bg-gray-200 flex-shrink-0">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200/B91C1C/FFF?text=Biryani'">
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-gray-800 text-lg leading-tight">${item.name}</h3>
+                                <i class="fa-regular fa-square-caret-up text-red-600 text-sm mt-1"></i> <!-- Non veg icon -->
+                            </div>
+                            <p class="font-bold text-gray-700 mt-1">₹${item.price}</p>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2 pr-12">${item.desc}</p>
+                        </div>
+                        ${btnHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- STREAMING_CHUNK:Cart Management ---
+
+        window.updateCart = function(itemId, change) {
+            const item = state.menu.find(i => i.id === itemId);
+            if(!item) return;
+
+            const existingIdx = state.cart.findIndex(c => c.id === itemId);
+            if(existingIdx >= 0) {
+                state.cart[existingIdx].qty += change;
+                if(state.cart[existingIdx].qty <= 0) {
+                    state.cart.splice(existingIdx, 1);
+                }
+            } else if (change > 0) {
+                state.cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    qty: 1,
+                    image: item.image
+                });
+            }
+            
+            updateCartUI();
+            // Re-render menu to update button states
+            if(document.getElementById('view-home').classList.contains('active')){
+                renderMenu();
+            }
+        }
+
+        function updateCartUI() {
+            const totalQty = state.cart.reduce((sum, item) => sum + item.qty, 0);
+            
+            // Update Bottom Nav badge
+            const badge = document.getElementById('cart-badge');
+            if(totalQty > 0) {
+                badge.textContent = totalQty;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+            
+            // Update Floating Cart Button on Home
+            const floatBadge = document.getElementById('floating-cart-badge');
+            const floatBtn = document.getElementById('floating-cart-btn');
+            if(totalQty > 0) {
+                floatBadge.textContent = totalQty;
+                floatBtn.classList.remove('hidden');
+            } else {
+                floatBtn.classList.add('hidden');
+            }
+
+            // Update Cart View if active or when updated
+            const emptyState = document.getElementById('cart-empty-state');
+            const contentState = document.getElementById('cart-content-state');
+            const checkoutBar = document.getElementById('cart-checkout-bar');
+            
+            if(state.cart.length === 0) {
+                emptyState.classList.remove('hidden');
+                contentState.classList.add('hidden');
+                checkoutBar.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                contentState.classList.remove('hidden');
+                checkoutBar.classList.remove('hidden');
+                
+                const container = document.getElementById('cart-items-container');
+                container.innerHTML = '';
+                
+                let subtotal = 0;
+                
+                state.cart.forEach(item => {
+                    const itemTotal = item.price * item.qty;
+                    subtotal += itemTotal;
+                    
+                    const el = document.createElement('div');
+                    el.className = "flex gap-3 bg-white p-3 rounded-xl border border-gray-100 shadow-sm";
+                    el.innerHTML = `
+                        <img src="${item.image}" class="w-16 h-16 rounded-lg object-cover" onerror="this.src='https://placehold.co/100x100/B91C1C/FFF?text=Food'">
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div class="flex justify-between">
+                                <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                                <span class="font-bold text-gray-800 text-sm">₹${itemTotal}</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xs text-gray-500">₹${item.price} x ${item.qty}</span>
+                                <div class="flex items-center gap-3 bg-gray-50 border rounded-lg px-2 py-1">
+                                    <button onclick="updateCart('${item.id}', -1)" class="text-primary font-bold px-1 hover:bg-gray-200 rounded cursor-pointer">-</button>
+                                    <span class="text-xs font-bold w-3 text-center">${item.qty}</span>
+                                    <button onclick="updateCart('${item.id}', 1)" class="text-primary font-bold px-1 hover:bg-gray-200 rounded cursor-pointer">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+
+                const delivery = state.settings.deliveryCharge;
+                const total = subtotal + delivery;
+                
+                document.getElementById('cart-subtotal').textContent = `₹${subtotal}`;
+                document.getElementById('cart-delivery').textContent = `₹${delivery}`;
+                document.getElementById('cart-total').textContent = `₹${total}`;
+                document.getElementById('btn-cart-total').innerHTML = `₹${total} <i class="fa-solid fa-chevron-right text-sm ml-1"></i>`;
+                
+                // Store totals temporarily for checkout
+                state.currentOrderTotals = { subtotal, delivery, total };
+            }
+        }
+
+        // --- STREAMING_CHUNK:Checkout & Payment Logic ---
+
+        window.proceedToPayment = function() {
+            if(!state.profile?.address) {
+                showToast("Please set delivery address first", "error");
+                document.getElementById('view-location').style.display = 'flex';
+                return;
+            }
+
+            if(!state.cart.length || !state.currentOrderTotals) {
+                showToast("Your cart is empty", "error");
+                switchView('view-home');
+                return;
+            }
+
+            // QR is generated ONLY when the user clicks "Order Now".
+            const total = state.currentOrderTotals.total;
+            const upiId = state.settings.upi || 'bismilla@upi';
+            const name = encodeURIComponent('Bismilla Biryani');
+            const upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${name}&am=${total}&cu=INR`;
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+
+            const qrContainer = document.getElementById('payment-qr-container');
+            const qrImg = document.getElementById('payment-qr-img');
+
+            document.getElementById('payment-amount-display').textContent = `₹${total}`;
+            document.getElementById('admin-upi-id').textContent = upiId;
+            document.getElementById('payment-instruction').textContent =
+                'Scan this QR code using GPay, PhonePe, Paytm or another UPI app.';
+
+            qrImg.src = qrUrl;
+            qrContainer.classList.remove('hidden');
+
+            switchView('view-payment');
+        }
+
+        window.confirmPayment = async function() {
+            if(!state.user || state.cart.length === 0) return;
+
+            const btn = document.getElementById('btn-confirm-payment');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing...`;
+
+            try {
+                const orderData = {
+                    customerName: state.profile.name,
+                    customerMobile: state.profile.mobile,
+                    address: state.profile.address,
+                    latitude: state.profile.latitude ?? currentLocation.latitude,
+                    longitude: state.profile.longitude ?? currentLocation.longitude,
+                    accuracy: state.profile.accuracy ?? currentLocation.accuracy,
+                    items: state.cart,
+                    totals: state.currentOrderTotals,
+                    paymentStatus: 'Payment Claimed',
+                    status: 'Pending Confirmation',
+                    paymentMethod: 'UPI QR'
+                };
+
+                const res = await fetch(`${API_BASE}/payments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiToken}`
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                const data = await res.json();
+                if(!res.ok) throw new Error(data.message || 'Payment could not be recorded');
+
+                showToast(`Payment recorded • ${new Date(data.paymentTime).toLocaleString()}`, "success");
+
+                state.cart = [];
+                updateCartUI();
+
+                // Clear QR after payment.
+                const qrContainer = document.getElementById('payment-qr-container');
+                const qrImg = document.getElementById('payment-qr-img');
+                if(qrContainer) qrContainer.classList.add('hidden');
+                if(qrImg) qrImg.src = '';
+
+                switchView('view-home');
+                setTimeout(() => showToast("Track your order in the Orders tab", "info"), 1500);
+
+            } catch(e) {
+                console.error("Payment recording failed", e);
+                showToast(e.message || "Failed to record payment. Try again.", "error");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-check-circle"></i> I Have Paid`;
+            }
+        }
+
+        // --- STREAMING_CHUNK:Customer Order Tracking ---
+        
+        let mockOrdersListenerCallback = null;
+
+        function listenToCustomerOrders() {
+            if(!state.user) return;
+            if(customerOrdersUnsubscribe) customerOrdersUnsubscribe();
+
+            if(isMockMode) {
+                const updateOrders = () => {
+                     state.customerOrders = mockDb.orders
+                        .filter(o => o.customerId === state.user.uid)
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                     renderCustomerOrders();
+                };
+                mockOrdersListenerCallback = updateOrders;
+                updateOrders(); // initial call
+                return;
+            }
+
+            // Rule 2: No complex queries. Fetch all, filter in JS.
+            const ordersRef = getPublicPath('orders');
+            
+            customerOrdersUnsubscribe = onSnapshot(ordersRef, (snapshot) => {
+                const allOrders = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                // Filter for current user
+                state.customerOrders = allOrders
+                    .filter(o => o.customerId === state.user.uid)
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                renderCustomerOrders();
+            }, (error) => {
+                console.error("Error listening to orders:", error);
+            });
+        }
+
+        function renderCustomerOrders() {
+            const container = document.getElementById('orders-container');
+            container.innerHTML = '';
+
+            if(state.customerOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 flex flex-col items-center justify-center">
+                        <i class="fa-solid fa-receipt text-5xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 font-medium">No orders yet.</p>
+                        <button onclick="switchView('view-home')" class="mt-4 text-primary font-bold text-sm">Order Now</button>
+                    </div>`;
+                return;
+            }
+
+            state.customerOrders.forEach(order => {
+                const date = new Date(order.createdAt).toLocaleString('en-IN', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
+                
+                // Status Styling Logic
+                let statusColor = 'bg-yellow-100 text-yellow-800';
+                let statusIcon = 'fa-clock';
+                
+                if(order.status === 'Confirmed' || order.status === 'Preparing') { statusColor = 'bg-blue-100 text-blue-800'; statusIcon = 'fa-fire-burner'; }
+                else if(order.status === 'Out for Delivery') { statusColor = 'bg-purple-100 text-purple-800'; statusIcon = 'fa-motorcycle'; }
+                else if(order.status === 'Delivered') { statusColor = 'bg-green-100 text-green-800'; statusIcon = 'fa-check-circle'; }
+                else if(order.status === 'Cancelled' || order.status === 'Rejected') { statusColor = 'bg-red-100 text-red-800'; statusIcon = 'fa-times-circle'; }
+
+                const itemsList = order.items.map(i => `${i.qty}x ${i.name}`).join(', ');
+
+                const el = document.createElement('div');
+                el.className = "bg-white rounded-xl shadow-sm border border-gray-200 p-4 relative overflow-hidden";
+                
+                // Timeline UI for active orders
+                let trackerHtml = '';
+                if(!['Delivered', 'Cancelled', 'Rejected'].includes(order.status)) {
+                    const steps = ['Pending Confirmation', 'Confirmed', 'Preparing', 'Out for Delivery'];
+                    const currentIdx = steps.indexOf(order.status);
+                    
+                    let dotsHtml = steps.map((step, idx) => {
+                        let colorClass = idx <= currentIdx ? 'bg-primary' : 'bg-gray-200';
+                        let textColor = idx <= currentIdx ? 'text-primary' : 'text-gray-400';
+                        // Simple active/inactive check
+                        return `
+                        <div class="flex flex-col items-center">
+                            <div class="w-3 h-3 rounded-full ${colorClass} mb-1 shadow-sm"></div>
+                            <span class="text-[9px] font-medium ${textColor} text-center w-12 leading-tight">${step}</span>
+                        </div>`;
+                    }).join('<div class="flex-1 h-0.5 bg-gray-200 mx-1 mt-1.5"><div class="h-full bg-primary" style="width: 0%"></div></div>'); // line connecting
+                    
+                    // A very simplified timeline for visual appeal
+                    trackerHtml = `
+                    <div class="mt-4 pt-3 border-t border-gray-100">
+                        <p class="text-xs text-gray-500 mb-2 font-medium">Tracking Order:</p>
+                        <div class="flex justify-between items-start w-full px-2">
+                            ${dotsHtml}
+                        </div>
+                    </div>`;
+                }
+
+                el.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="text-xs text-gray-400 font-mono">ID: ${order.id.slice(-6).toUpperCase()}</p>
+                            <p class="text-sm font-bold text-gray-800 mt-0.5">${date}</p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${statusColor}">
+                            <i class="fa-solid ${statusIcon}"></i> ${order.status}
+                        </span>
+                    </div>
+                    
+                    <div class="my-3">
+                        <p class="text-sm text-gray-700 font-medium">${itemsList}</p>
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-xs text-gray-500">Total Amount</p>
+                            <p class="font-bold text-primary">₹${order.totals.total}</p>
+                        </div>
+                        <button onclick="showToast('Help center coming soon', 'info')" class="text-xs text-primary font-medium hover:underline">Need Help?</button>
+                    </div>
+                    ${trackerHtml}
+                `;
+                container.appendChild(el);
+            });
+        }
+
+
+        // --- STREAMING_CHUNK:Admin Portal Logic ---
+
+        let adminOrdersUnsubscribe = null;
+
+        function loadAdminData() {
+            if(!state.user || !state.isAdmin) return;
+            listenToAllOrdersAdmin();
+            loadAdminMenu();
+        }
+
+        window.switchAdminTab = function(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active classes from buttons
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-gray-700', 'text-white');
+                btn.classList.add('text-gray-400');
+            });
+
+            // Show target
+            document.getElementById(`admin-tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            activeBtn.classList.remove('text-gray-400');
+            activeBtn.classList.add('bg-gray-700', 'text-white');
+            
+            // Close mobile menu if open
+            document.getElementById('admin-nav-links').classList.add('hidden');
+            document.getElementById('admin-nav-links').classList.remove('flex'); // remove mobile flex
+        }
+
+        function listenToAllOrdersAdmin() {
+            if(adminOrdersUnsubscribe) adminOrdersUnsubscribe();
+            
+            if(isMockMode) {
+                 const updateAdminOrders = () => {
+                     state.adminOrders = [...mockDb.orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                     renderAdminOrders();
+                 };
+                 mockOrdersListenerCallback = updateAdminOrders; // reuse callback for simplicity in mock
+                 updateAdminOrders();
+                 return;
+            }
+
+            const ordersRef = getPublicPath('orders');
+            
+            adminOrdersUnsubscribe = onSnapshot(ordersRef, (snapshot) => {
+                const allOrders = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                // Sort newest first
+                state.adminOrders = allOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                renderAdminOrders();
+            }, (error) => console.error("Admin order listen error", error));
+        }
+
+        function renderAdminOrders() {
+            const tbody = document.getElementById('admin-orders-table-body');
+            tbody.innerHTML = '';
+
+            if(state.adminOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">No orders received yet.</td></tr>`;
+                return;
+            }
+
+            state.adminOrders.forEach(order => {
+                const date = new Date(order.createdAt).toLocaleString();
+                const itemsStr = order.items.map(i => `<span class="whitespace-nowrap bg-gray-100 px-1 py-0.5 rounded text-xs">${i.qty}x ${i.name}</span>`).join(' ');
+                
+                // Status select dropdown
+                const statuses = ['Pending Confirmation', 'Confirmed', 'Preparing', 'Out for Delivery', 'Delivered', 'Cancelled', 'Rejected'];
+                let optionsHtml = statuses.map(s => `<option value="${s}" ${s === order.status ? 'selected' : ''}>${s}</option>`).join('');
+                
+                let rowColor = '';
+                if(order.status === 'Pending Confirmation') rowColor = 'bg-yellow-50';
+                if(order.status === 'Delivered' || order.status === 'Cancelled' || order.status === 'Rejected') rowColor = 'opacity-60';
+
+                const tr = document.createElement('tr');
+                tr.className = `border-b border-gray-100 hover:bg-gray-50 transition ${rowColor}`;
+                tr.innerHTML = `
+                    <td class="p-4 align-top">
+                        <div class="font-mono text-xs text-gray-500 mb-1">#${order.id}</div>
+                        <div class="text-xs text-gray-400">${date}</div>
+                    </td>
+                    <td class="p-4 align-top">
+                        <div class="font-bold text-gray-800">${order.customerName}</div>
+                        <div class="text-xs text-gray-600 mb-1"><i class="fa-solid fa-phone text-[10px]"></i> ${order.customerMobile}</div>
+                        <div class="text-xs text-gray-500 max-w-[200px] truncate" title="${order.address}"><i class="fa-solid fa-location-dot text-[10px]"></i> ${order.address}</div>
+                    </td>
+                    <td class="p-4 align-top max-w-[200px] flex flex-wrap gap-1">
+                        ${itemsStr}
+                    </td>
+                    <td class="p-4 align-top">
+                        <div class="font-bold text-gray-800">₹${order.totals.total}</div>
+                        <div class="text-xs ${order.paymentStatus === 'Payment Claimed' ? 'text-green-600' : 'text-gray-500'} bg-green-50 px-2 py-1 rounded inline-block mt-1 border border-green-100">${order.paymentStatus}</div>
+                    </td>
+                    <td class="p-4 align-top">
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:ring-1 outline-none bg-white font-medium ${order.status.includes('Pending') ? 'border-yellow-400' : ''}">
+                            ${optionsHtml}
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            if(!state.user || !state.isAdmin) return;
+            try {
+                if(isMockMode) {
+                     const order = mockDb.orders.find(o => o.id === orderId);
+                     if(order) order.status = newStatus;
+                     if(mockOrdersListenerCallback) mockOrdersListenerCallback();
+                } else {
+                    const orderRef = doc(getPublicPath('orders'), orderId);
+                    await updateDoc(orderRef, { status: newStatus });
+                }
+                showToast(`Order status updated to ${newStatus}`, 'success');
+            } catch(e) {
+                console.error("Update status failed", e);
+                showToast("Failed to update status", "error");
+            }
+        }
+
+        // --- STREAMING_CHUNK:Admin Menu Management ---
+
+        async function loadAdminMenu() {
+            if(!state.user || !state.isAdmin) return;
+            try {
+                if(isMockMode) {
+                     renderAdminMenu(mockDb.menu);
+                     return;
+                }
+                const menuRef = getPublicPath('menu');
+                const snapshot = await getDocs(menuRef);
+                const items = snapshot.docs.map(d => ({id: d.id, ...d.data()}));
+                renderAdminMenu(items);
+            } catch (e) {
+                console.error("Admin menu load error", e);
+            }
+        }
+
+        function renderAdminMenu(items) {
+            const grid = document.getElementById('admin-menu-grid');
+            grid.innerHTML = '';
+
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `bg-white rounded-xl shadow-sm border ${item.available ? 'border-gray-200' : 'border-red-200 bg-red-50'} overflow-hidden`;
+                div.innerHTML = `
+                    <div class="h-32 bg-gray-200 relative">
+                        <img src="${item.image}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200/ddd/555'">
+                        ${!item.available ? `<div class="absolute inset-0 bg-white/70 flex items-center justify-center font-bold text-red-600">UNAVAILABLE</div>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-gray-800">${item.name}</h4>
+                            <span class="font-bold text-primary">₹${item.price}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 line-clamp-2">${item.desc}</p>
+                        <div class="flex gap-2">
+                            <button onclick='editMenuItem(${JSON.stringify(item).replace(/'/g, "&apos;")})' class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-pen mr-1"></i> Edit</button>
+                            <button onclick="deleteMenuItem('${item.id}')" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-trash mr-1"></i> Delete</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        window.openMenuModal = function() {
+            document.getElementById('form-menu-item').reset();
+            document.getElementById('menu-item-id').value = '';
+            document.getElementById('modal-title').textContent = 'Add Menu Item';
+            document.getElementById('modal-menu-item').classList.remove('hidden');
+        }
+
+        window.closeMenuModal = function() {
+            document.getElementById('modal-menu-item').classList.add('hidden');
+        }
+
+        window.editMenuItem = function(item) {
+            document.getElementById('menu-item-id').value = item.id;
+            document.getElementById('menu-item-name').value = item.name;
+            document.getElementById('menu-item-price').value = item.price;
+            document.getElementById('menu-item-desc').value = item.desc || '';
+            document.getElementById('menu-item-image').value = item.image || '';
+            document.getElementById('menu-item-available').checked = item.available;
+            
+            document.getElementById('modal-title').textContent = 'Edit Menu Item';
+            document.getElementById('modal-menu-item').classList.remove('hidden');
+        }
+
+        const menuForm = document.getElementById('form-menu-item');
+        if (menuForm) {
+            menuForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if(!state.user || !state.isAdmin) return;
+                
+                const btnSpinner = document.getElementById('modal-spinner');
+                btnSpinner.classList.remove('hidden');
+                
+                const id = document.getElementById('menu-item-id').value;
+                const data = {
+                    name: document.getElementById('menu-item-name').value,
+                    price: parseFloat(document.getElementById('menu-item-price').value),
+                    desc: document.getElementById('menu-item-desc').value,
+                    image: document.getElementById('menu-item-image').value,
+                    available: document.getElementById('menu-item-available').checked
+                };
+
+                try {
+                    if(isMockMode) {
+                         await new Promise(r => setTimeout(r, 500));
+                         if(id) {
+                             const idx = mockDb.menu.findIndex(i => i.id === id);
+                             if(idx > -1) mockDb.menu[idx] = { id, ...data };
+                         } else {
+                             mockDb.menu.push({ id: 'mock_item_' + Date.now(), ...data });
+                         }
+                    } else {
+                        if(id) {
+                            await updateDoc(doc(getPublicPath('menu'), id), data);
+                            showToast("Item updated", "success");
+                        } else {
+                            await addDoc(getPublicPath('menu'), data);
+                            showToast("Item added", "success");
+                        }
+                    }
+                    if(isMockMode) showToast(id ? "Item updated" : "Item added", "success");
+                    closeMenuModal();
+                    loadAdminMenu(); // refresh list
+                } catch(err) {
+                    console.error(err);
+                    showToast("Failed to save item", "error");
+                } finally {
+                    btnSpinner.classList.add('hidden');
+                }
+            });
+        }
+
+        window.deleteMenuItem = async function(id) {
+            if(!confirm("Are you sure you want to delete this item?")) return;
+            if(!state.user || !state.isAdmin) return;
+            
+            try {
+                if(isMockMode) {
+                    mockDb.menu = mockDb.menu.filter(i => i.id !== id);
+                } else {
+                    await deleteDoc(doc(getPublicPath('menu'), id));
+                }
+                showToast("Item deleted", "success");
+                loadAdminMenu();
+            } catch(e) {
+                showToast("Failed to delete", "error");
+            }
+        }
+
+        window.saveAdminSettings = async function() {
+            if(!state.user || !state.isAdmin) return;
+            const btn = event.target;
+            const ogText = btn.textContent;
+            btn.textContent = "Saving...";
+            
+            const upi = document.getElementById('setting-upi').value;
+            const charge = parseFloat(document.getElementById('setting-delivery-charge').value);
+            
+            try {
+                if(!isMockMode) {
+                    const settingsRef = doc(getPublicPath('settings'), 'config');
+                    await setDoc(settingsRef, { upi, deliveryCharge: charge }, {merge: true});
+                }
+                showToast("Settings saved successfully", "success");
+                state.settings = { upi, deliveryCharge: charge };
+            } catch(e) {
+                showToast("Failed to save settings", "error");
+            } finally {
+                btn.textContent = ogText;
+            }
+        }
+
+        // --- STREAMING_CHUNK:App Initialization ---
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initial Splash Screen timeout (simulate load)
+            setTimeout(() => {
+                // Check auth status. If we already got user from fast firebase load, handleAuthChange routed us.
+                // If not, show login.
+                if(!state.user) {
+                    if(state.currentMode === 'admin') showAdminView('view-admin-login');
+                    else switchView('view-login');
+                }
+            }, 2500);
+
+            // Start Firebase Auth listener
+            initializeAuth();
+            
+            // Add resize listener to handle mobile keyboard issues with bottom nav
+            window.addEventListener('resize', () => {
+                const bottomNav = document.getElementById('customer-bottom-nav');
+                if(document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                    // Mobile keyboard likely up, hide nav if screen is small
+                    if(window.innerHeight < 500) {
+                        bottomNav.style.position = 'static';
+                        bottomNav.style.display = 'none';
+                    }
+                } else {
+                    // Keyboard down
+                    bottomNav.style.position = 'fixed';
+                    if(!bottomNav.classList.contains('hidden') && state.currentMode === 'customer') {
+                         bottomNav.style.display = 'flex';
+                    }
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

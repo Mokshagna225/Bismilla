@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bismilla Biryani - Database Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f5f5}
+.card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+th{white-space:nowrap}.table-wrap{overflow:auto}
+</style>
+</head>
+<body class="text-gray-800">
+<div class="max-w-7xl mx-auto p-4 md:p-8">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-bold">Bismilla Biryani</h1>
+      <p class="text-gray-500">SQLite Database Dashboard</p>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="loadData()" class="px-4 py-2 rounded-xl bg-red-600 text-white font-semibold">↻ Refresh</button>
+      <button onclick="exportUsers()" class="px-4 py-2 rounded-xl bg-gray-900 text-white font-semibold">Export Users CSV</button>
+    </div>
+  </div>
+
+  <div id="error" class="hidden mb-5 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700"></div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="card p-5"><p class="text-sm text-gray-500">Users</p><p id="count-users" class="text-3xl font-bold mt-1">0</p></div>
+    <div class="card p-5"><p class="text-sm text-gray-500">Login Events</p><p id="count-logins" class="text-3xl font-bold mt-1">0</p></div>
+    <div class="card p-5"><p class="text-sm text-gray-500">Payments</p><p id="count-payments" class="text-3xl font-bold mt-1">0</p></div>
+    <div class="card p-5"><p class="text-sm text-gray-500">Database</p><p class="font-bold mt-2">SQLite</p><p class="text-xs text-gray-500">server/bismilla.db</p></div>
+  </div>
+
+  <div class="card p-5 mb-6">
+    <div class="flex items-center justify-between mb-4"><h2 class="text-xl font-bold">Registered Users</h2><span class="text-xs text-gray-500">GPS + profile data</span></div>
+    <div class="table-wrap"><table class="min-w-full text-sm"><thead><tr class="border-b text-left">
+      <th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">Mobile</th><th class="p-3">Address</th><th class="p-3">Latitude</th><th class="p-3">Longitude</th><th class="p-3">Accuracy</th><th class="p-3">Created</th>
+    </tr></thead><tbody id="users-body"></tbody></table></div>
+  </div>
+
+  <div class="card p-5 mb-6">
+    <h2 class="text-xl font-bold mb-4">Login History</h2>
+    <div class="table-wrap"><table class="min-w-full text-sm"><thead><tr class="border-b text-left"><th class="p-3">ID</th><th class="p-3">User ID</th><th class="p-3">Email</th><th class="p-3">Login Time</th></tr></thead><tbody id="logins-body"></tbody></table></div>
+  </div>
+
+  <div class="card p-5">
+    <h2 class="text-xl font-bold mb-4">Orders / Payments</h2>
+    <div class="table-wrap"><table class="min-w-full text-sm"><thead><tr class="border-b text-left"><th class="p-3">Order</th><th class="p-3">User</th><th class="p-3">Amount</th><th class="p-3">Method</th><th class="p-3">Payment</th><th class="p-3">Order Status</th><th class="p-3">Address</th><th class="p-3">GPS</th><th class="p-3">Time</th></tr></thead><tbody id="payments-body"></tbody></table></div>
+  </div>
+
+  <p class="text-xs text-gray-500 mt-6">Development dashboard. Do not expose /api/admin/activity publicly without real admin authentication/authorization.</p>
+</div>
+<script>
+const API='http://localhost:5000/api';
+let cachedUsers=[];
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const fmt=v=>v?new Date(v).toLocaleString():'';
+async function loadData(){
+  const error=document.getElementById('error'); error.classList.add('hidden');
+  try{
+    const r=await fetch(API+'/admin/activity'); const data=await r.json();
+    if(!r.ok) throw new Error(data.message||'Could not load database');
+    cachedUsers=data.users||[];
+    document.getElementById('count-users').textContent=cachedUsers.length;
+    document.getElementById('count-logins').textContent=(data.logins||[]).length;
+    document.getElementById('count-payments').textContent=(data.payments||[]).length;
+    document.getElementById('users-body').innerHTML=cachedUsers.length?cachedUsers.map(u=>`<tr class="border-b hover:bg-gray-50"><td class="p-3">${u.id}</td><td class="p-3 font-semibold">${esc(u.name)}</td><td class="p-3">${esc(u.email)}</td><td class="p-3">${esc(u.mobile)}</td><td class="p-3 min-w-[260px]">${esc(u.address||'—')}</td><td class="p-3">${u.latitude??'—'}</td><td class="p-3">${u.longitude??'—'}</td><td class="p-3">${u.location_accuracy?Math.round(u.location_accuracy)+' m':'—'}</td><td class="p-3">${fmt(u.created_at)}</td></tr>`).join(''):'<tr><td colspan="9" class="p-5 text-center text-gray-500">No users yet</td></tr>';
+    document.getElementById('logins-body').innerHTML=(data.logins||[]).length?data.logins.map(x=>`<tr class="border-b"><td class="p-3">${x.id}</td><td class="p-3">${x.user_id}</td><td class="p-3">${esc(x.email)}</td><td class="p-3">${fmt(x.login_time)}</td></tr>`).join(''):'<tr><td colspan="4" class="p-5 text-center text-gray-500">No login events yet</td></tr>';
+    document.getElementById('payments-body').innerHTML=(data.payments||[]).length?data.payments.map(x=>{let gps=(x.latitude!=null&&x.longitude!=null)?`${x.latitude}, ${x.longitude} (${x.location_accuracy?Math.round(x.location_accuracy)+' m':'n/a'})`:'—';return `<tr class="border-b align-top"><td class="p-3 font-semibold">${esc(x.order_id)}</td><td class="p-3">${esc(x.name||'')}<br><span class="text-xs text-gray-500">${esc(x.email||'')}</span></td><td class="p-3">₹${Number(x.amount||0).toFixed(2)}</td><td class="p-3">${esc(x.payment_method)}</td><td class="p-3">${esc(x.payment_status)}</td><td class="p-3">${esc(x.order_status)}</td><td class="p-3 min-w-[240px]">${esc(x.address||'—')}</td><td class="p-3 min-w-[220px]">${esc(gps)}</td><td class="p-3">${fmt(x.payment_time)}</td></tr>`}).join(''):'<tr><td colspan="9" class="p-5 text-center text-gray-500">No payments yet</td></tr>';
+  }catch(e){error.textContent='Cannot load data. Make sure the Node server is running on http://localhost:5000. '+e.message;error.classList.remove('hidden');}
+}
+function exportUsers(){
+  const headers=['id','name','email','mobile','address','latitude','longitude','location_accuracy','created_at'];
+  const rows=[headers,...cachedUsers.map(u=>headers.map(h=>String(u[h]??'').replace(/"/g,'""')))];
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='bismilla-users.csv'; a.click(); URL.revokeObjectURL(a.href);
+}
+loadData();
+</script>
+</body></html>

@@ -1,0 +1,23 @@
+{
+  "name": "bismilla-biryani-database-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.4.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.5.0",
+    "nodemailer": "^10.0.10"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.11.1": true,
+    "@firebase/util@1.15.3": true,
+    "protobufjs@7.6.6": true
+  }
+}
